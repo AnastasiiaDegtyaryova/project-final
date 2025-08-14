@@ -1,0 +1,11 @@
+spring:
+  cache:
+    type: none
+
+  init:
+    mode: always
+
+  datasource:
+    url: ${TEST_DB_URL:jdbc:postgresql://localhost:5433/jira-test}
+    username: ${TEST_DB_USER:jira}
+    password: ${TEST_DB_PASSWORD:JiraRush}

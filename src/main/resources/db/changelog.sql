@@ -329,3 +329,20 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled|'),
 
 drop index UK_USER_BELONG;
 create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
+
+--changeset nastya:deprecate_vk_yandex
+update reference
+set endpoint = now()
+where ref_type = 0 lower(code) in ('vk','vkontakte','yandex');
+
+--rollback update reference set endpoint = null where lower(code) in ('vk','vkontakte','yandex');
+
+--changeset nastya:remove_vk_yandex
+delete from reference
+where ref_type = 0 and lower(code) in ('vk','vkontakte','yandex');
+
+delete from contact
+where lower(code) in ('vk','vkontakte','yandex');
+
+--rollback insert into reference (code, title, ref_type) values ('vk','VK',0);
+--rollback insert into reference (code, title, ref_type) values ('yandex','Yandex',0);

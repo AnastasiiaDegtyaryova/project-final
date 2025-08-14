@@ -5,5 +5,12 @@ target
 logs
 attachments
 *.patch
+.env
 
 
+
+.env
+
+# local only
+pgdata/
+startup.log
