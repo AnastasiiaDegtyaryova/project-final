@@ -1,22 +1,25 @@
-spring:
-  datasource:
-    url: ${TEST_DB_URL}
-    username: ${TEST_DB_USER}
-    password: ${TEST_DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+app:
+  host-url: ${APP_HOST_URL:http://localhost:8080}
+  test-mail: ${APP_TEST_MAIL:jira4jr@gmail.com}
 
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        format_sql: true
+server:
+  port: 8080
+  address: 0.0.0.0
+  servlet:
+    context-path: /
+
+spring:
+  main:
+    web-application-type: servlet
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
   liquibase:
     change-log: classpath:db/changelog.sql
-    enabled: true
-
   sql:
     init:
       mode: never
