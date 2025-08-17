@@ -1,25 +1,31 @@
+MAIL_USER: test
+MAIL_PASSWORD: test
+
 spring:
   datasource:
-    url: ${TEST_DB_URL}
-    username: ${TEST_DB_USER}
-    password: ${TEST_DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:jira_${random.uuid};MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=VALUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
 
   liquibase:
-    change-log: classpath:db/changelog.sql
-    enabled: true
+    enabled: false
 
   sql:
     init:
-      mode: never
+      mode: always
+      schema-locations: classpath:db/changelog-test.sql
+      data-locations: classpath:db/data-test.sql
 
   autoconfigure:
     exclude:
@@ -27,6 +33,21 @@ spring:
       - org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
       - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 
-spring.security.oauth2.client:
-  registration: {}
-  provider: {}
+  mail:
+    host: localhost
+    port: 2525
+    username: ${MAIL_USER}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+    test-connection: false
+
+  security:
+    oauth2:
+      client:
+        registration: {}
+        provider: {}
