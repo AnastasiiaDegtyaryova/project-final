@@ -32,6 +32,10 @@ spring:
   liquibase:
     change-log: classpath:db/changelog.sql
 
+  messages:
+    basename: messages
+    encoding: UTF-8
+
   jackson:
     visibility:
       field: any
