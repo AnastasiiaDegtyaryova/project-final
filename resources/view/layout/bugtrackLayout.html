@@ -7,7 +7,11 @@
 
 <th:block th:fragment="view(codeTo, urlEdit, content, fragment)">
     <th:block
-            th:replace="${fragment} ? ~{::appView} : ~{layout/main::page(title=#{common.view}+' '+${codeTo.code},appMain=~{::appView})}">
+            th:replace="${fragment} ? ~{::appView}
+              : ~{layout/main::page(
+                    title=${#messages.msg('common.view') + ' ' + codeTo.code},
+                    appMain=~{::appView}
+                )}">
         <appView>
             <div class="card mb-3">
                 <div class="card-body">
@@ -65,7 +69,12 @@
 
 <div th:fragment="edit(codeTo, urlSave, urlEnable, content, objectName)">
     <th:block
-            th:replace="~{layout/main::page(title=${codeTo.isNew()? #{common.new}+ ' ' +objectName : #{common.edit}+ ' ' +codeTo.code}, appMain=~{::appEdit})}">
+            th:replace="~{layout/main::page(
+                title=${codeTo.isNew()
+                        ? #messages.msg('common.new') + ' ' + objectName
+                        : #messages.msg('common.edit') + ' ' + codeTo.code},
+                appMain=~{::appEdit}
+            )}">
         <appEdit>
             <div class="card">
                 <div class="card-body">
@@ -87,6 +96,7 @@
                         <th:block th:insert="${content}"/>
 
                         <attachments th:hidden="${codeTo.isNew()}">
+
                             <hr>
                             <div class="col-auto me-auto" id="alert"></div>
                             <h5 class="fw-bold text-secondary ms-1" th:text="#{common.attachments}">Attachments</h5>
@@ -158,6 +168,7 @@
         <ul>
             <li class="text-danger text-start" th:each="err : ${#fields.errors('__${fieldName}__')}" th:text="${err}"/>
         </ul>
-    </div>
+    </div>git add .
+
 </div>
 </html>
